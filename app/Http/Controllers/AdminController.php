@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ProductApprovalNotification;
 use App\Mail\ProductRejectionNotification;
 use App\Models\Order;
+use App\Models\CharityRequest; // Include the CharityRequest model
 
 class AdminController extends Controller
 {
@@ -22,8 +23,9 @@ class AdminController extends Controller
     $totalUsers = User::count();
     $totalProducts = Product::count();
     $totalOrders = Order::count();
+    $totalCharities = CharityRequest::where('status', 'approved')->count();
 
-    return view('admin.dashboard', compact('totalUsers', 'totalProducts', 'totalOrders'));
+    return view('admin.dashboard', compact('totalUsers', 'totalProducts', 'totalOrders', 'totalCharities'));
 }
 
 
@@ -140,9 +142,74 @@ public function destroyOrder($id)
     return redirect()->route('admin.orders.index')->with('success', 'Order deleted successfully.');
 }
 
+public function manageCharities()
+    {
+        // Fetch all pending charity requests with pagination (10 per page)
+        $charityRequests = CharityRequest::where('status', 'pending')->paginate(10);
 
+        return view('admin.charities.index', compact('charityRequests'));
+    }
 
+    /**
+     * Approve a charity request.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function approveCharity($id)
+    {
+        // Find the charity request by ID
+        $charityRequest = CharityRequest::findOrFail($id);
 
+        // Update status to approved
+        $charityRequest->status = 'approved';
+        $charityRequest->save();
+
+        return redirect()->route('admin.charities')->with('success', 'Charity request approved successfully.');
+    }
+
+    /**
+     * Reject a charity request with a rejection reason.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function rejectCharity(Request $request, $id)
+    {
+        // Validate the rejection reason input
+        $request->validate([
+            'reason' => 'required|string|max:255',
+        ]);
+
+        // Find the charity request by ID
+        $charityRequest = CharityRequest::findOrFail($id);
+
+        // Update status to rejected and store rejection reason
+        $charityRequest->status = 'rejected';
+        $charityRequest->rejection_reason = $request->input('reason');
+        $charityRequest->save();
+
+        return redirect()->route('admin.charities')->with('success', 'Charity request rejected successfully.');
+    }
+
+    public function manageDonations()
+{
+    // Fetch only approved charity requests
+    $donations = CharityRequest::where('status', 'approved')->get();
+    return view('admin.manage-donations', compact('donations'));
+}
+
+    
+    public function deleteDonation($id)
+    {
+        // Find the donation request by ID and delete it
+        $donation = CharityRequest::findOrFail($id);
+        $donation->delete();
+    
+        // Redirect back with a success message
+        return redirect()->route('admin.donations')->with('success', 'Donation deleted successfully.');
+    }
     
 }
 

@@ -71,5 +71,10 @@
             <h3>Total Orders</h3>
             <p>{{ $totalOrders }}</p>
         </div>
+        <!-- Total Charity Requests -->
+        <div class="card">
+            <h3>Total Charity Requests</h3>
+            <p>{{ $totalCharities }}</p>
+        </div>
     </div>
 @endsection

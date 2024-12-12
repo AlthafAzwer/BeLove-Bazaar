@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CharityController;
+use App\Http\Controllers\ReviewController;
+
 
 
 // Welcome page
@@ -66,6 +69,34 @@ Route::middleware(['auth', 'verified', RoleMiddleware::class . ':buyer,seller,ch
     Route::patch('/orders/{order}/update-status', [OrderController::class, 'update'])->name('orders.update-status');
     Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
     Route::delete('/admin/orders/{id}', [AdminController::class, 'destroyOrder'])->name('admin.orders.destroy');
+    Route::get('/charity/request', [CharityController::class, 'create'])->name('charity.request');
+    Route::post('/charity/request', [CharityController::class, 'store'])->name('charity.request.store');
+    Route::get('/charity/my-requests', [CharityController::class, 'myRequests'])->name('charity.myRequests');
+    Route::get('/donation-list', [CharityController::class, 'donationList'])->name('donation.list');
+    Route::get('/my-charities', [CharityController::class, 'myCharities'])->name('charities.index');
+    Route::get('/my-charities/delete/{id}', [CharityController::class, 'deleteCharity'])->name('charities.delete');
+    Route::get('/donations/search', [CharityController::class, 'search'])->name('donations.search');
+    Route::get('/orders/{order}/review', [ReviewController::class, 'create'])->name('review.create');
+    Route::post('/orders/{order}/review', [ReviewController::class, 'store'])->name('review.store');
+    Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
+    Route::get('/reviews', [ReviewController::class, 'userReviews'])->name('user.reviews');
+    
+    Route::delete('/user/reviews/{review}', [ReviewController::class, 'destroyUser'])->name('user.reviews.destroy');
+
+   
+
+    
+
+
+    
+
+
+
+
+
+
+    
+
     
     
 
@@ -103,6 +134,28 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])->group(function ()
     Route::put('/admin/orders/{order}', [AdminController::class, 'updateOrder'])->name('admin.orders.update');
     Route::delete('/admin/products/{id}', [AdminController::class, 'destroyProduct'])->name('admin.products.destroy');
     Route::delete('/admin/orders/{id}', [AdminController::class, 'destroyOrder'])->name('admin.orders.destroy');
+    Route::get('/admin/charities', [AdminController::class, 'manageCharities'])->name('admin.charities');
+    Route::post('/admin/charities/{id}/approve', [AdminController::class, 'approveCharity'])->name('admin.charities.approve');
+    Route::post('/admin/charities/{id}/reject', [AdminController::class, 'rejectCharity'])->name('admin.charities.reject');
+    Route::get('/admin/manage-charities', [CharityController::class, 'manageCharities'])->name('admin.manage-charities');
+    Route::delete('/admin/charity/{id}', [CharityController::class, 'deleteCharity'])->name('admin.charity.delete');
+    Route::get('/admin/donations', [AdminController::class, 'manageDonations'])->name('admin.donations');
+Route::delete('/admin/donations/{id}', [AdminController::class, 'deleteDonation'])->name('admin.delete-donation');
+Route::get('/admin/reviews', [ReviewController::class, 'index'])->name('admin.reviews.index');
+Route::delete('/admin/reviews/{review}', [ReviewController::class, 'destroy'])->name('admin.reviews.destroy');
+Route::get('/admin/reviews', [ReviewController::class, 'adminIndex'])->name('admin.reviews.index');
+Route::delete('/admin/reviews/{review}', [ReviewController::class, 'destroy'])->name('admin.reviews.destroy');
+
+// Reviews Page Route
+
+
+
+
+
+
+
+
+    
 
 
 

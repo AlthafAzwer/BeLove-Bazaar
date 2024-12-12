@@ -134,20 +134,31 @@
         <aside class="sidebar">
             <h2>Admin Panel</h2>
             <ul>
-                <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                <li><a href="{{ route('admin.users.index') }}">Manage Users</a></li>
-                <li><a href="{{ route('admin.ads.index') }}">Manage Ads</a></li>
-                <li><a href="{{ route('admin.products.index') }}">Manage Products</a></li>
-                <li><a href="{{ route('admin.orders.index') }}">Manage Orders</a></li>
-                <li>
-                    <form method="POST" action="{{ route('admin.logout') }}" style="display: inline;">
-                        @csrf
-                        <button type="submit" class="logout-link">
-                            Logout
-                        </button>
-                    </form>
-                </li>
-            </ul>
+    <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+    <li><a href="{{ route('admin.users.index') }}">Manage Users</a></li>
+    <li><a href="{{ route('admin.ads.index') }}">Manage Ads</a></li>
+    <li><a href="{{ route('admin.products.index') }}">Manage Products</a></li>
+    <li><a href="{{ route('admin.orders.index') }}">Manage Orders</a></li>
+    <li><a href="{{ route('admin.charities') }}">Manage Charities</a></li> <!-- New Link -->
+    <li>
+    <a href="{{ route('admin.donations') }}">Manage Donations</a>
+</li>
+<li>
+    <a href="{{ route('admin.reviews.index') }}">Manage Reviews</a>
+</li>
+
+
+    
+    <li>
+        <form method="POST" action="{{ route('admin.logout') }}" style="display: inline;">
+            @csrf
+            <button type="submit" class="logout-link">
+                Logout
+            </button>
+        </form>
+    </li>
+</ul>
+
         </aside>
 
         <!-- Main Content Section -->

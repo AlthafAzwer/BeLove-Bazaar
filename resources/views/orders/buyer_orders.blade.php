@@ -61,6 +61,25 @@
             font-size: 1.1rem;
             font-weight: bold;
         }
+
+        /* Review Button Styling */
+        .review-btn {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .review-btn:hover {
+            background-color: #45a049;
+        }
     </style>
 
     <!-- Order Container -->
@@ -81,6 +100,7 @@
                         <th>Status</th>
                         <th>Address</th>
                         <th>Contact</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -90,6 +110,13 @@
                             <td>{{ ucfirst($order->status) }}</td>
                             <td>{{ $order->buyer_address }}</td>
                             <td>{{ $order->buyer_telephone }}</td>
+                            <td>
+                                @if($order->status === 'Completed')
+                                    <a href="{{ route('review.create', $order->id) }}" class="review-btn">Review</a>
+                                @else
+                                    <span>N/A</span>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
