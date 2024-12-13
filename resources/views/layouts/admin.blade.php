@@ -147,6 +147,27 @@
     <a href="{{ route('admin.reviews.index') }}">Manage Reviews</a>
 </li>
 
+<li>
+    <a href="{{ route('admin.auctions.index') }}" class="btn btn-primary">
+        Manage Auctions
+    </a>
+</li>
+
+<li>
+    <a href="{{ route('admin.manageAuctions') }}" class="btn btn-primary">
+        Manage Auction Ads
+    </a>
+</li>
+
+<li>
+    <a href="{{ route('admin.manageBids') }}" class="btn btn-primary">
+        Manage Bids
+    </a>
+</li>
+
+
+
+
 
     
     <li>

@@ -10,6 +10,9 @@ use App\Mail\ProductApprovalNotification;
 use App\Mail\ProductRejectionNotification;
 use App\Models\Order;
 use App\Models\CharityRequest; // Include the CharityRequest model
+use App\Models\Auction; // Include the Auction model
+use App\Models\Bid; // Include the Bid model
+use App\Models\Review; // Include the Review model
 
 class AdminController extends Controller
 {
@@ -24,8 +27,13 @@ class AdminController extends Controller
     $totalProducts = Product::count();
     $totalOrders = Order::count();
     $totalCharities = CharityRequest::where('status', 'approved')->count();
+    $totalReviews = Review::count(); // Count all reviews
 
-    return view('admin.dashboard', compact('totalUsers', 'totalProducts', 'totalOrders', 'totalCharities'));
+    $approvedAuctions = Auction::where('status', 'approved')->count();
+    $totalBids = Bid::count();
+    
+
+    return view('admin.dashboard', compact('totalUsers', 'totalProducts', 'totalOrders', 'totalCharities',  'approvedAuctions', 'totalBids', 'totalReviews'));
 }
 
 
@@ -210,7 +218,73 @@ public function manageCharities()
         // Redirect back with a success message
         return redirect()->route('admin.donations')->with('success', 'Donation deleted successfully.');
     }
+
+    public function manageAuctions()
+    {
+        $auctions = Auction::where('status', 'pending')->get();
+        return view('admin.auctions.index', compact('auctions'));
+    }
     
+    /**
+     * Approve an auction.
+     */
+    public function approveAuction($id)
+    {
+        $auction = Auction::findOrFail($id);
+        $auction->status = 'approved';
+        $auction->save();
+    
+        return redirect()->route('admin.auctions.index')->with('success', 'Auction approved successfully!');
+    }
+    
+    /**
+     * Reject an auction with a reason.
+     */
+    public function rejectAuction(Request $request, $id)
+    {
+        $request->validate([
+            'rejection_reason' => 'required|string|max:255',
+        ]);
+    
+        $auction = Auction::findOrFail($id);
+        $auction->status = 'rejected';
+        $auction->rejection_reason = $request->rejection_reason;
+        $auction->save();
+    
+        return redirect()->route('admin.auctions.index')->with('success', 'Auction rejected successfully!');
+    }
+
+    public function showLiveAuctions()
+{
+    $auctions = Auction::where('status', 'approved')->get();
+    return view('admin.auctions.manage-auctions', compact('auctions'));
+
+}
+
+public function deleteAuction($id)
+{
+    $auction = Auction::findOrFail($id);
+    $auction->delete();
+
+    return redirect()->route('admin.manageAuctions')->with('success', 'Auction deleted successfully!');
+}
+
+public function showBids()
+{
+    // Fetch all bids with related auction and user data
+    $bids = Bid::with(['auction', 'user'])->get();
+    return view('admin.auctions.manage-bids', compact('bids'));
+}
+
+public function deleteBid($id)
+{
+    $bid = Bid::findOrFail($id); // Find the bid or throw 404
+    $bid->delete(); // Delete the bid
+
+    return redirect()->route('admin.manageBids')->with('success', 'Bid deleted successfully!');
+}
+
+
 }
 
 // Separate AdminProductController for handling product approval and rejection

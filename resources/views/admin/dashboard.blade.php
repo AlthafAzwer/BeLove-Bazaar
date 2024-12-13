@@ -76,5 +76,22 @@
             <h3>Total Charity Requests</h3>
             <p>{{ $totalCharities }}</p>
         </div>
+
+        
+        <!-- Approved Auctions -->
+        <div class="card">
+            <h3>Approved Auctions</h3>
+            <p>{{ $approvedAuctions }}</p>
+        </div>
+        <!-- Total Bids -->
+        <div class="card">
+            <h3>Bids Placed</h3>
+            <p>{{ $totalBids }}</p>
+        </div>
+         <!-- Total Reviews -->
+         <div class="card">
+            <h3>Total Reviews</h3>
+            <p>{{ $totalReviews }}</p>
+        </div>
     </div>
 @endsection

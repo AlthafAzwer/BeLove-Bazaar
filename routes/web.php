@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CharityController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\AuctionController;
+use App\Http\Controllers\BidController;
 
 
 
@@ -82,6 +84,25 @@ Route::middleware(['auth', 'verified', RoleMiddleware::class . ':buyer,seller,ch
     Route::get('/reviews', [ReviewController::class, 'userReviews'])->name('user.reviews');
     
     Route::delete('/user/reviews/{review}', [ReviewController::class, 'destroyUser'])->name('user.reviews.destroy');
+    Route::get('/auctions', [AuctionController::class, 'index'])->name('auctions.index');
+    Route::get('/auctions/my', [AuctionController::class, 'myAuctions'])->name('auctions.my');
+    Route::get('/auctions/create', [AuctionController::class, 'create'])->name('auctions.create');
+    Route::post('/auctions/store', [AuctionController::class, 'store'])->name('auctions.store');
+    Route::get('/auctions/{auction}', [AuctionController::class, 'show'])->name('auctions.show');
+    Route::delete('/auctions/{id}', [AuctionController::class, 'destroy'])->name('auctions.destroy');
+    // Route to display the auction bidding page
+Route::get('/auctions/{id}/bid', [AuctionController::class, 'showBidPage'])->name('auctions.placeBid');
+
+// Route to handle the bidding process
+Route::post('/auctions/{id}/bid', [AuctionController::class, 'placeBid'])->name('auctions.placeBid.submit');
+Route::get('/my-bids', [BidController::class, 'myBids'])->name('bids.myBids');
+Route::get('/bids/{id}/proceed', [BidController::class, 'proceedToBuy'])->name('bids.proceedToBuy');
+
+
+
+
+
+
 
    
 
@@ -145,6 +166,23 @@ Route::get('/admin/reviews', [ReviewController::class, 'index'])->name('admin.re
 Route::delete('/admin/reviews/{review}', [ReviewController::class, 'destroy'])->name('admin.reviews.destroy');
 Route::get('/admin/reviews', [ReviewController::class, 'adminIndex'])->name('admin.reviews.index');
 Route::delete('/admin/reviews/{review}', [ReviewController::class, 'destroy'])->name('admin.reviews.destroy');
+Route::get('/admin/auctions', [AdminController::class, 'manageAuctions'])->name('admin.auctions.index');
+
+// Route for approving an auction
+Route::post('/admin/auctions/{id}/approve', [AdminController::class, 'approveAuction'])->name('admin.auctions.approve');
+
+// Route for rejecting an auction
+Route::post('/admin/auctions/{id}/reject', [AdminController::class, 'rejectAuction'])->name('admin.auctions.reject');
+Route::get('/admin/manage-auctions', [AdminController::class, 'showLiveAuctions'])->name('admin.manageAuctions');
+Route::delete('/admin/manage-auctions/{id}', [AdminController::class, 'deleteAuction'])->name('admin.deleteAuction');
+
+// Route to view and manage bids
+Route::get('/admin/manage-bids', [AdminController::class, 'showBids'])->name('admin.manageBids');
+Route::delete('/admin/manage-bids/{id}', [AdminController::class, 'deleteBid'])->name('admin.deleteBid');
+
+
+
+
 
 // Reviews Page Route
 

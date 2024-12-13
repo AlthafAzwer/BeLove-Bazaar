@@ -122,6 +122,8 @@
     <div>
         <a href="{{ route('products.create') }}">Post Your Ad</a>
         <a href="{{ route('charity.request') }}">Post Charity Request</a> <!-- Added Button -->
+        <a href="{{ route('auctions.create') }}" class="btn btn-danger">Post Auction</a>
+
     </div>
 </div>
 
@@ -139,6 +141,11 @@
         <a href="{{ route('products') }}">Products</a>
         <a href="{{ route('donation.list') }}">Donation List</a>
         <a href="{{ route('user.reviews') }}">Reviews</a>
+        <a href="{{ route('auctions.index') }}">Auctions</a>
+
+
+        
+
 
         <a href="{{ route('contact') }}">Contact</a>
     </div>
@@ -155,6 +162,16 @@
             <a href="{{ route('charities.index') }}" class="flex items-center space-x-2">
     <i class="fas fa-hand-holding-heart"></i> My Charities
 </a>
+
+<a href="{{ route('auctions.my') }}" class="flex items-center space-x-2">
+    <i class="fas fa-gavel"></i> My Auctions
+
+</a>
+
+<a href="{{ route('bids.myBids') }}" class="flex items-center space-x-2">
+    <i class="fas fa-hand-holding-usd"></i> My Bids
+</a>
+
 
 
             <a href="{{ route('seller.orders') }}" class="flex items-center space-x-2">

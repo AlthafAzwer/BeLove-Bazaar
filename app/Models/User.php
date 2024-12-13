@@ -62,4 +62,10 @@ public function charityRequests()
     {
         return $this->hasMany(CharityRequest::class);
     }
+
+    public function bids()
+{
+    return $this->hasMany(Bid::class);
+}
+
 }
