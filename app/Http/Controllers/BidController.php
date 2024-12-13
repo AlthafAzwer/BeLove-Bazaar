@@ -1,34 +1,82 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Bid;
+use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 
 class BidController extends Controller
 {
+    /**
+     * Display the user's bids.
+     *
+     * @return \Illuminate\View\View
+     */
     public function myBids()
     {
-        // Fetch all bids placed by the logged-in user
-        $bids = Bid::with('auction') // Eager load the related auction
-                    ->where('user_id', Auth::id())
-                    ->orderBy('created_at', 'desc') // Show the most recent bids first
-                    ->get();
-
-        // Return the view with the bids
+        $bids = Bid::with(['auction' => function ($query) {
+            $query->select('id', 'title', 'end_time', 'auction_state');
+        }])->where('user_id', Auth::id())->get();
+    
         return view('bids.myBids', compact('bids'));
     }
+    
 
-    public function proceedToBuy($id)
-{
-    $bid = Bid::with('auction')->findOrFail($id);
+    /**
+     * Show the purchase form for a winning bid.
+     *
+     * @param  int $id
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     */
+    public function showPurchaseForm($id)
+    {
+        $bid = Bid::with('auction')->findOrFail($id);
 
-    // Ensure the bid status is "won"
-    if ($bid->status !== 'won') {
-        return redirect()->route('bids.index')->with('error', 'You can only proceed for bids you have won.');
+        // Ensure the user is the winner of the bid
+        if ($bid->status !== 'won' || Auth::id() !== $bid->user_id) {
+            return redirect()->route('bids.my')->with('error', 'Unauthorized access to purchase.');
+        }
+
+        return view('bids.purchase', compact('bid'));
     }
 
-    return view('bids.proceed', compact('bid'));
-}
+    /**
+     * Process the purchase request.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function submitPurchaseForm(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'address' => 'required|string|max:500',
+            'phone' => 'required|string|max:15',
+        ]);
 
+        $bid = Bid::with('auction')->findOrFail($id);
+
+        // Ensure the user is the winner of the bid
+        if ($bid->status !== 'won' || Auth::id() !== $bid->user_id) {
+            return redirect()->route('bids.my')->with('error', 'Unauthorized access to purchase.');
+        }
+
+        // Create the order
+        Order::create([
+            'bid_id' => $bid->id,
+            'buyer_id' => $bid->user_id,
+            'seller_id' => $bid->auction->user_id,
+            'product_title' => $bid->auction->title,
+            'amount' => $bid->bid_amount,
+            'name' => $request->name,
+            'address' => $request->address,
+            'phone' => $request->phone,
+            'status' => 'pending', // Mark the order as pending initially
+        ]);
+
+        return redirect()->route('bids.my')->with('success', 'Your purchase has been successfully submitted!');
+    }
 }

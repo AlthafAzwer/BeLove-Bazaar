@@ -114,9 +114,11 @@
                     <h3 class="bid-title">{{ $bid->auction->title }}</h3>
                     <p class="bid-info"><strong>Your Bid:</strong> Rs {{ number_format($bid->bid_amount, 2) }}</p>
                     <p class="bid-info"><strong>Highest Bid:</strong> Rs {{ number_format($bid->auction->bids->max('bid_amount'), 2) }}</p>
+                    
+                    <!-- Bid Status -->
                     <p class="bid-info"><strong>Status:</strong>
-                        @if($bid->auction->status == 'completed')
-                            @if($bid->status == 'won')
+                        @if($bid->auction->auction_state === 'completed')
+                            @if($bid->status === 'won')
                                 <span class="badge-won">Won</span>
                                 <a href="{{ route('bids.purchase', $bid->id) }}" class="proceed-btn">Proceed to Purchase</a>
                             @else
@@ -130,7 +132,20 @@
                             @endif
                         @endif
                     </p>
-                    <p class="bid-info"><strong>Auction Ends:</strong> {{ $bid->auction->end_time }}</p>
+
+                    <!-- Auction Status -->
+                    <p class="bid-info"><strong>Auction Status:</strong>
+                        @if($bid->auction->auction_state === 'completed')
+                            <span class="badge-won">Ended</span>
+                        @else
+                            <span class="badge-pending">Active</span>
+                        @endif
+                    </p>
+
+                    <!-- Auction End Time -->
+                    <p class="bid-info"><strong>Auction Ends:</strong>
+                        {{ $bid->auction->end_time ? $bid->auction->end_time->format('d M Y, h:i A') : 'Not Set' }}
+                    </p>
                 </div>
             </div>
         @endforeach

@@ -99,7 +99,7 @@
                         <p class="auction-info"><strong>Category:</strong> {{ $auction->category }}</p>
                         <p class="auction-info"><strong>Start Bid:</strong> Rs {{ number_format($auction->start_bid, 2) }}</p>
                         <p class="auction-info"><strong>Max Bid:</strong> Rs {{ number_format($auction->max_bid, 2) }}</p>
-                        <p class="auction-info"><strong>Auction Duration:</strong> {{ $auction->duration }} days</p>
+                        <p class="auction-info"><strong>Auction Ends At:</strong> {{ $auction->end_time->format('d M Y, h:i A') }}</p>
                         <a href="{{ route('auctions.placeBid', $auction->id) }}" class="place-bid-btn">Place Bid</a>
                     </div>
                 </div>

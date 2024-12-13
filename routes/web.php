@@ -95,8 +95,9 @@ Route::get('/auctions/{id}/bid', [AuctionController::class, 'showBidPage'])->nam
 
 // Route to handle the bidding process
 Route::post('/auctions/{id}/bid', [AuctionController::class, 'placeBid'])->name('auctions.placeBid.submit');
+Route::get('/bids/{bid}/purchase', [BidController::class, 'showPurchaseForm'])->name('bids.purchase');
+Route::post('/bids/{bid}/purchase', [BidController::class, 'submitPurchaseForm'])->name('bids.purchase.submit');
 Route::get('/my-bids', [BidController::class, 'myBids'])->name('bids.myBids');
-Route::get('/bids/{id}/proceed', [BidController::class, 'proceedToBuy'])->name('bids.proceedToBuy');
 
 
 

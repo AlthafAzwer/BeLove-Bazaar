@@ -17,7 +17,11 @@ class AuctionController extends Controller
     public function create()
     {
         $categories = ['Electronics', 'Furniture', 'Clothing', 'Books', 'Toys', 'Home Appliances', 'Sports'];
-        $locations = ['All of Sri Lanka', 'Colombo 1', 'Colombo 2', 'Colombo 3', 'Colombo 4', 'Colombo 5', 'Colombo 6', 'Colombo 7', 'Colombo 8', 'Colombo 9', 'Colombo 10', 'Colombo 11', 'Colombo 12', 'Colombo 13', 'Colombo 14', 'Colombo 15'];
+        $locations = [
+            'All of Sri Lanka', 'Colombo 1', 'Colombo 2', 'Colombo 3', 'Colombo 4', 
+            'Colombo 5', 'Colombo 6', 'Colombo 7', 'Colombo 8', 'Colombo 9', 
+            'Colombo 10', 'Colombo 11', 'Colombo 12', 'Colombo 13', 'Colombo 14', 'Colombo 15'
+        ];
         return view('auctions.create', compact('categories', 'locations'));
     }
 
@@ -53,6 +57,9 @@ class AuctionController extends Controller
             }
         }
 
+        // Calculate end time based on duration
+        $endTime = now()->addDays((int) $request->duration);
+
         // Create the auction
         Auction::create([
             'user_id' => Auth::id(),
@@ -63,7 +70,8 @@ class AuctionController extends Controller
             'description' => $request->description,
             'start_bid' => $request->start_bid,
             'max_bid' => $request->max_bid,
-            'duration' => $request->duration,
+            'duration' => (int) $request->duration,
+            'end_time' => $endTime,
             'images' => json_encode($imagePaths),
             'contact_info' => $request->contact_info,
             'status' => 'pending',
@@ -105,50 +113,66 @@ class AuctionController extends Controller
         return view('auctions.show', compact('auction'));
     }
 
+    /**
+     * Delete the specified auction.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy($id)
-{
-    $auction = Auction::findOrFail($id);
+    {
+        $auction = Auction::findOrFail($id);
 
-    // Ensure only the owner can delete the auction
-    if ($auction->user_id !== Auth::id()) {
-        return redirect()->route('auctions.my')->with('error', 'Unauthorized action.');
+        // Ensure only the owner can delete the auction
+        if ($auction->user_id !== Auth::id()) {
+            return redirect()->route('auctions.my')->with('error', 'Unauthorized action.');
+        }
+
+        $auction->delete();
+
+        return redirect()->route('auctions.my')->with('success', 'Auction deleted successfully.');
     }
 
-    $auction->delete();
-
-    return redirect()->route('auctions.my')->with('success', 'Auction deleted successfully.');
-}
-
-public function showBidPage($id)
-{
-    $auction = Auction::findOrFail($id); // Fetch the auction
-    $highestBid = Bid::where('auction_id', $id)->max('bid_amount'); // Get the highest bid for this auction
-    return view('auctions.bid', compact('auction', 'highestBid')); // Pass data to the view
-}
-
-
-public function placeBid(Request $request, $id)
-{
-    $request->validate([
-        'bid_amount' => 'required|numeric|min:0',
-    ]);
-
-    $auction = Auction::findOrFail($id); // Find the auction
-    $highestBid = Bid::where('auction_id', $id)->max('bid_amount'); // Get the current highest bid
-
-    if ($request->bid_amount <= ($highestBid ?? $auction->start_bid)) {
-        return redirect()->back()->with('error', 'Your bid must be higher than the current highest bid.');
+    /**
+     * Show the bidding page for a specific auction.
+     *
+     * @param  int $id
+     * @return \Illuminate\View\View
+     */
+    public function showBidPage($id)
+    {
+        $auction = Auction::findOrFail($id); // Fetch the auction
+        $highestBid = Bid::where('auction_id', $id)->max('bid_amount'); // Get the highest bid for this auction
+        return view('auctions.bid', compact('auction', 'highestBid')); // Pass data to the view
     }
 
-    // Save the new bid
-    Bid::create([
-        'auction_id' => $id,
-        'user_id' => Auth::id(), // Assuming the user is logged in
-        'bid_amount' => $request->bid_amount,
-    ]);
+    /**
+     * Place a bid on a specific auction.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function placeBid(Request $request, $id)
+    {
+        $request->validate([
+            'bid_amount' => 'required|numeric|min:0',
+        ]);
 
-    return redirect()->route('auctions.placeBid', $id)->with('success', 'Your bid has been placed successfully!');
-}
+        $auction = Auction::findOrFail($id); // Find the auction
+        $highestBid = Bid::where('auction_id', $id)->max('bid_amount'); // Get the current highest bid
 
+        if ($request->bid_amount <= ($highestBid ?? $auction->start_bid)) {
+            return redirect()->back()->with('error', 'Your bid must be higher than the current highest bid.');
+        }
 
+        // Save the new bid
+        Bid::create([
+            'auction_id' => $id,
+            'user_id' => Auth::id(),
+            'bid_amount' => $request->bid_amount,
+        ]);
+
+        return redirect()->route('auctions.placeBid', $id)->with('success', 'Your bid has been placed successfully!');
+    }
 }
