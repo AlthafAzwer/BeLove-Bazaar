@@ -85,11 +85,27 @@ class AuctionController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index()
-    {
-        $auctions = Auction::where('status', 'approved')->get();
-        return view('auctions.index', compact('auctions'));
+    public function index(Request $request)
+{
+    // Start a query on the Auction model
+    $query = Auction::where('status', 'approved'); // Only show approved auctions
+
+    // Check if a search term is provided
+    if ($request->has('search') && $request->input('search') !== null) {
+        $search = $request->input('search');
+        $query->where(function ($q) use ($search) {
+            $q->where('title', 'LIKE', '%' . $search . '%') // Search by title
+              ->orWhere('category', 'LIKE', '%' . $search . '%'); // Search by category
+        });
     }
+
+    // Get the filtered auctions
+    $auctions = $query->orderBy('end_time', 'asc')->get(); // Order by auction end time
+
+    // Pass the auctions and search term (if any) to the view
+    return view('auctions.index', compact('auctions'))->with('search', $request->input('search'));
+}
+
 
     /**
      * Display the user's auctions.

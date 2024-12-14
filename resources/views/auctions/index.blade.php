@@ -9,12 +9,53 @@
     }
 
     h1 {
-        font-size: 2rem;
+        font-size: 2.5rem;
         font-weight: bold;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
         text-align: center;
+        color: #333;
     }
 
+    /* Search Bar Styles */
+    .search-form {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+
+    .search-input {
+        width: 70%;
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px 0 0 5px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .search-input:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        outline: none;
+    }
+
+    .search-btn {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 0 5px 5px 0;
+        font-size: 1rem;
+        font-weight: bold;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .search-btn:hover {
+        background-color: #0056b3;
+        transform: translateY(-3px);
+        cursor: pointer;
+    }
+
+    /* Auction Card Styles */
     .auction-card {
         border: 1px solid #ddd;
         border-radius: 10px;
@@ -22,6 +63,7 @@
         overflow: hidden;
         margin-bottom: 20px;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background-color: #fff;
     }
 
     .auction-card:hover {
@@ -43,6 +85,7 @@
         font-size: 1.5rem;
         font-weight: bold;
         margin-bottom: 10px;
+        color: #222;
     }
 
     .auction-info {
@@ -85,21 +128,32 @@
 <div class="container">
     <h1>Live Auctions</h1>
 
+    <!-- Search Form -->
+    <form method="GET" action="{{ route('auctions.index') }}" class="search-form">
+        <input 
+            type="text" 
+            name="search" 
+            class="search-input" 
+            placeholder="Search auctions by title or category..." 
+            value="{{ request('search') }}">
+        <button type="submit" class="search-btn">Search</button>
+    </form>
+
     @if($auctions->isEmpty())
-        <p class="text-center">No auctions are live at the moment. Please check back later.</p>
+        <p class="text-center text-muted">No auctions are live at the moment. Please check back later.</p>
     @else
         <div class="auction-card-container">
             @foreach($auctions as $auction)
                 <div class="auction-card">
                     <div class="auction-image">
-                        <img src="{{ asset('storage/' . json_decode($auction->images)[0]) }}" alt="{{ $auction->title }}">
+                        <img src="{{ asset('storage/' . (json_decode($auction->images, true)[0] ?? 'placeholder.jpg')) }}" alt="{{ $auction->title }}">
                     </div>
                     <div class="auction-body">
                         <h3 class="auction-title">{{ $auction->title }}</h3>
                         <p class="auction-info"><strong>Category:</strong> {{ $auction->category }}</p>
                         <p class="auction-info"><strong>Start Bid:</strong> Rs {{ number_format($auction->start_bid, 2) }}</p>
                         <p class="auction-info"><strong>Max Bid:</strong> Rs {{ number_format($auction->max_bid, 2) }}</p>
-                        <p class="auction-info"><strong>Auction Ends At:</strong> {{ $auction->end_time->format('d M Y, h:i A') }}</p>
+                        <p class="auction-info"><strong>Auction Ends At:</strong> {{ \Carbon\Carbon::parse($auction->end_time)->format('d M Y, h:i A') }}</p>
                         <a href="{{ route('auctions.placeBid', $auction->id) }}" class="place-bid-btn">Place Bid</a>
                     </div>
                 </div>
