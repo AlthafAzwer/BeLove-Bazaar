@@ -109,4 +109,11 @@ class Auction extends Model
     {
         return $this->auction_state === 'active';
     }
+
+    public function orders()
+{
+    return $this->hasMany(AuctionOrder::class);
+}
+
+
 }

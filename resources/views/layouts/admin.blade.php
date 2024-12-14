@@ -165,6 +165,12 @@
     </a>
 </li>
 
+<li>
+<a href="{{ route('admin.auction_orders') }}" class="btn btn-primary">
+     Manage Auction Orders
+</a>
+    </li>
+
 
 
 

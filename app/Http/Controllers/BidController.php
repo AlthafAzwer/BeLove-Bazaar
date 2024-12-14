@@ -19,10 +19,9 @@ class BidController extends Controller
         $bids = Bid::with(['auction' => function ($query) {
             $query->select('id', 'title', 'end_time', 'auction_state');
         }])->where('user_id', Auth::id())->get();
-    
+
         return view('bids.myBids', compact('bids'));
     }
-    
 
     /**
      * Show the purchase form for a winning bid.
@@ -36,7 +35,7 @@ class BidController extends Controller
 
         // Ensure the user is the winner of the bid
         if ($bid->status !== 'won' || Auth::id() !== $bid->user_id) {
-            return redirect()->route('bids.my')->with('error', 'Unauthorized access to purchase.');
+            return redirect()->route('bids.myBids')->with('error', 'Unauthorized access to purchase.');
         }
 
         return view('bids.purchase', compact('bid'));
@@ -61,22 +60,23 @@ class BidController extends Controller
 
         // Ensure the user is the winner of the bid
         if ($bid->status !== 'won' || Auth::id() !== $bid->user_id) {
-            return redirect()->route('bids.my')->with('error', 'Unauthorized access to purchase.');
+            return redirect()->route('bids.myBids')->with('error', 'Unauthorized access to purchase.');
         }
 
         // Create the order
         Order::create([
+            'auction_id' => $bid->auction->id,
             'bid_id' => $bid->id,
             'buyer_id' => $bid->user_id,
             'seller_id' => $bid->auction->user_id,
             'product_title' => $bid->auction->title,
             'amount' => $bid->bid_amount,
-            'name' => $request->name,
-            'address' => $request->address,
-            'phone' => $request->phone,
+            'buyer_name' => $request->name,
+            'buyer_address' => $request->address,
+            'buyer_phone' => $request->phone,
             'status' => 'pending', // Mark the order as pending initially
         ]);
 
-        return redirect()->route('bids.my')->with('success', 'Your purchase has been successfully submitted!');
+        return redirect()->route('bids.myBids')->with('success', 'Your purchase has been successfully submitted!');
     }
 }

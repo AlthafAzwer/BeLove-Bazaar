@@ -15,6 +15,7 @@ use App\Http\Controllers\CharityController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\BidController;
+use App\Http\Controllers\AuctionOrderController;
 
 
 
@@ -99,6 +100,12 @@ Route::get('/bids/{bid}/purchase', [BidController::class, 'showPurchaseForm'])->
 Route::post('/bids/{bid}/purchase', [BidController::class, 'submitPurchaseForm'])->name('bids.purchase.submit');
 Route::get('/my-bids', [BidController::class, 'myBids'])->name('bids.myBids');
 
+Route::post('/auction-orders/{auction}', [AuctionOrderController::class, 'store'])->name('auction_orders.store');
+
+// Seller's auction orders
+Route::get('/auction-orders', [AuctionOrderController::class, 'index'])->name('auction_orders.index');
+
+
 
 
 
@@ -180,6 +187,10 @@ Route::delete('/admin/manage-auctions/{id}', [AdminController::class, 'deleteAuc
 // Route to view and manage bids
 Route::get('/admin/manage-bids', [AdminController::class, 'showBids'])->name('admin.manageBids');
 Route::delete('/admin/manage-bids/{id}', [AdminController::class, 'deleteBid'])->name('admin.deleteBid');
+
+Route::get('/admin/auction-orders', [AdminController::class, 'manageAuctionOrders'])->name('admin.auction_orders');
+Route::delete('/admin/auction-orders/{id}', [AdminController::class, 'deleteAuctionOrder'])->name('admin.auction_orders.delete');
+
 
 
 

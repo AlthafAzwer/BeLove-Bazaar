@@ -5,14 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Bid extends Model
+class AuctionOrder extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'auction_id',
-        'user_id',
-        'bid_amount',
+        'buyer_id',
+        'buyer_name',
+        'buyer_address',
+        'buyer_phone',
+        'status',
     ];
 
     // Relationship with Auction
@@ -21,11 +24,11 @@ class Bid extends Model
         return $this->belongsTo(Auction::class);
     }
 
-    // Relationship with User
-    public function user()
+    // Relationship with User (Buyer)
+    public function buyer()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'buyer_id');
     }
-
     
 }
+

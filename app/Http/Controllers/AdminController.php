@@ -13,6 +13,7 @@ use App\Models\CharityRequest; // Include the CharityRequest model
 use App\Models\Auction; // Include the Auction model
 use App\Models\Bid; // Include the Bid model
 use App\Models\Review; // Include the Review model
+use App\Models\AuctionOrder; // Include the AuctionOrder model
 
 class AdminController extends Controller
 {
@@ -284,6 +285,24 @@ public function deleteBid($id)
     return redirect()->route('admin.manageBids')->with('success', 'Bid deleted successfully!');
 }
 
+public function manageAuctionOrders()
+{
+    // Fetch all auction orders with related auction and buyer info
+    $auctionOrders = AuctionOrder::with('auction')->get();
+
+    // Return the view for managing auction orders
+    return view('admin.manage_auction_orders', compact('auctionOrders'));
+}
+
+public function deleteAuctionOrder($id)
+{
+    // Find and delete the auction order by ID
+    $auctionOrder = AuctionOrder::findOrFail($id);
+    $auctionOrder->delete();
+
+    // Redirect back with a success message
+    return redirect()->route('admin.auction_orders')->with('success', 'Auction Order deleted successfully!');
+}
 
 }
 

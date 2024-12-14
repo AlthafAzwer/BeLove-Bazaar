@@ -52,20 +52,36 @@
 
 <div class="form-container">
     <h1>Proceed to Purchase</h1>
-    <form action="{{ route('bids.purchase.submit', $bid->id) }}" method="POST">
+    <form action="{{ route('auction_orders.store', $bid->auction->id) }}" method="POST">
         @csrf
+        <!-- Auction Information -->
+        <div class="form-group">
+            <label for="auction_title">Auction Title</label>
+            <input type="text" id="auction_title" class="form-control" value="{{ $bid->auction->title }}" readonly>
+        </div>
+
+        <div class="form-group">
+            <label for="bid_amount">Your Bid Amount</label>
+            <input type="text" id="bid_amount" class="form-control" value="Rs {{ number_format($bid->bid_amount, 2) }}" readonly>
+        </div>
+
+        <!-- Buyer Information -->
         <div class="form-group">
             <label for="name">Full Name</label>
-            <input type="text" name="name" id="name" class="form-control" required>
+            <input type="text" name="buyer_name" id="name" class="form-control" value="{{ Auth::user()->name }}" required>
         </div>
+
         <div class="form-group">
             <label for="address">Address</label>
-            <textarea name="address" id="address" rows="4" class="form-control" required></textarea>
+            <textarea name="buyer_address" id="address" rows="4" class="form-control" required></textarea>
         </div>
+
         <div class="form-group">
             <label for="phone">Phone Number</label>
-            <input type="text" name="phone" id="phone" class="form-control" required>
+            <input type="text" name="buyer_phone" id="phone" class="form-control" required>
         </div>
+
+        <!-- Submit Button -->
         <button type="submit" class="btn-submit">Submit Purchase</button>
     </form>
 </div>

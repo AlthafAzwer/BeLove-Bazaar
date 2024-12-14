@@ -172,6 +172,12 @@
     <i class="fas fa-hand-holding-usd"></i> My Bids
 </a>
 
+<a href="{{ route('auction_orders.index') }}" class="flex items-center space-x-2">
+    <i class="fas fa-gavel"></i> Auction Orders
+</a>
+
+
+
 
 
             <a href="{{ route('seller.orders') }}" class="flex items-center space-x-2">
