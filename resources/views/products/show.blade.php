@@ -108,6 +108,21 @@
             <p>{{ $product->description }}</p>
             <p class="contact-info"><strong>Contact:</strong> {{ $product->contact_info }}</p>
             <a href="{{ route('orders.create', ['product' => $product->id]) }}" class="buy-now-btn">Buy Now</a>
+<!-- If you want to immediately create a blank message or pass a product name -->
+<form action="{{ route('messages.go', $product->user->id) }}" method="POST">
+    @csrf
+    <!-- We do NOT store product_name or create a message here. 
+         We only redirect to the chat page when the button is clicked. -->
+    <button type="submit">Message Seller</button>
+</form>
+
+
+
+
+
+
+
+
         </div>
     </div>
 @endsection

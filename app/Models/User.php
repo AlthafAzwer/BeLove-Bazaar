@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -68,4 +69,13 @@ public function charityRequests()
     return $this->hasMany(Bid::class);
 }
 
+public function sentMessages(): HasMany
+{
+    return $this->hasMany(Message::class, 'sender_id');
+}
+
+public function receivedMessages(): HasMany
+{
+    return $this->hasMany(Message::class, 'receiver_id');
+}
 }

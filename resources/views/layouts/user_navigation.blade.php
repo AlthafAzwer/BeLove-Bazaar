@@ -147,7 +147,9 @@
         
 
 
-        <a href="{{ route('contact') }}">Contact</a>
+        
+        <a class="nav-link" href="{{ route('messages.index') }}">Chats</a>
+    
     </div>
 
     
@@ -175,6 +177,10 @@
 <a href="{{ route('auction_orders.index') }}" class="flex items-center space-x-2">
     <i class="fas fa-gavel"></i> Auction Orders
 </a>
+
+
+        
+    
 
 
 

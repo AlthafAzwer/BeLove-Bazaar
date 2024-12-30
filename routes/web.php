@@ -16,6 +16,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\BidController;
 use App\Http\Controllers\AuctionOrderController;
+use App\Http\Controllers\DirectMessageController;
 
 
 
@@ -107,8 +108,25 @@ Route::get('/auction-orders', [AuctionOrderController::class, 'index'])->name('a
 
 
 
+ Route::get('/messages', [DirectMessageController::class, 'index'])
+        ->name('messages.index');
+    
+    // Show conversation with a specific user
+    Route::get('/messages/{otherUserId}', [DirectMessageController::class, 'show'])
+    ->name('messages.show');
 
 
+    // Store (send) a new message
+    Route::post('/messages/{user}', [DirectMessageController::class, 'store'])
+        ->name('messages.store');
+
+
+// routes/web.php
+// routes/web.php
+Route::post('/messages/go/{otherUserId}', function ($otherUserId) {
+    // Just redirect to the conversation page
+    return redirect()->route('messages.show', $otherUserId);
+})->name('messages.go');
 
 
 
