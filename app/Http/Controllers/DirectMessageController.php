@@ -93,4 +93,29 @@ class DirectMessageController extends Controller
         // Redirect to show the conversation
         return redirect()->route('messages.show', $otherUserId);
     }
+    public function deleteChat($otherUserId)
+{
+    $authId = Auth::id();
+
+    // 1. Find all messages where (auth→otherUser OR otherUser→authUser)
+    $messages = Message::where(function ($q) use ($authId, $otherUserId) {
+                    $q->where('sender_id', $authId)
+                      ->where('receiver_id', $otherUserId);
+                })
+                ->orWhere(function ($q) use ($authId, $otherUserId) {
+                    $q->where('sender_id', $otherUserId)
+                      ->where('receiver_id', $authId);
+                })
+                ->get();
+
+    // 2. Delete them from the database
+    foreach ($messages as $msg) {
+        $msg->delete();
+    }
+
+    // 3. Redirect back to My Chats with a success message
+    return redirect()->route('messages.index')
+                     ->with('success', 'Chat deleted successfully.');
+}
+
 }

@@ -17,6 +17,8 @@ use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\BidController;
 use App\Http\Controllers\AuctionOrderController;
 use App\Http\Controllers\DirectMessageController;
+use App\Models\CharityRequest;
+
 
 
 
@@ -127,6 +129,25 @@ Route::post('/messages/go/{otherUserId}', function ($otherUserId) {
     // Just redirect to the conversation page
     return redirect()->route('messages.show', $otherUserId);
 })->name('messages.go');
+
+
+// routes/web.php
+Route::post('/charities/chat/{charityId}', function ($charityId) {
+    // 1. Find the charity
+    $charity = CharityRequest::findOrFail($charityId);
+
+    // 2. Redirect to the conversation with $charity->user->id
+    return redirect()->route('messages.show', $charity->user_id);
+})->name('charity.chat');
+
+Route::post('/auctions/chat/{auction}', function (\App\Models\Auction $auction) {
+    // Just redirect to the conversation with the auction’s user
+    return redirect()->route('messages.show', $auction->user_id);
+})->name('messages.goToAuctionChat');
+
+Route::delete('/messages/delete-chat/{otherUserId}', [DirectMessageController::class, 'deleteChat'])
+     ->name('messages.deleteChat');
+
 
 
 

@@ -200,6 +200,37 @@
             <h2>Hi, We're {{ $charity->name }}</h2>
             <p>{{ $charity->description }}</p>
             <button class="donate-btn" onclick="showDetails('{{ $charity->id }}')">Donate</button>
+            <form action="{{ route('charity.chat', $charity->id) }}" method="POST">
+    @csrf
+    <div style="
+    text-align: center; 
+    margin-top: 20px; /* space above the buttons */
+">
+    <button style="
+    background-color: #17A2B8;
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.3s;
+    margin-left: 15px;
+"
+onmouseover="
+    this.style.backgroundColor='#138496';
+    this.style.transform='scale(1.03)';
+"
+onmouseout="
+    this.style.backgroundColor='#17A2B8';
+    this.style.transform='scale(1)';
+">
+    Message Charity
+</button>
+    </div>
+</form>
+
         </div>
     </div>
 

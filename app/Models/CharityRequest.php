@@ -21,5 +21,14 @@ class CharityRequest extends Model
         'status',
         'rejection_reason',
     ];
+
+    // Suppose your 'charities' table has: id, user_id, name, ...
+// Then in your Charity model:
+
+public function user()
+{
+    return $this->belongsTo(User::class, 'user_id');
+}
+
 }
 

@@ -155,6 +155,41 @@
                         <p class="auction-info"><strong>Max Bid:</strong> Rs {{ number_format($auction->max_bid, 2) }}</p>
                         <p class="auction-info"><strong>Auction Ends At:</strong> {{ \Carbon\Carbon::parse($auction->end_time)->format('d M Y, h:i A') }}</p>
                         <a href="{{ route('auctions.placeBid', $auction->id) }}" class="place-bid-btn">Place Bid</a>
+
+                        <!-- "Message" Button  -->
+    <form action="{{ route('messages.goToAuctionChat', $auction->id) }}" method="POST">
+        @csrf
+        <div style="
+    text-align: left; 
+    margin-top: 20px; /* space above the buttons */
+">
+        <button style="
+    background-color: #28a745;
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.3s;
+    margin-left: 15px;
+"
+onmouseover="
+    this.style.backgroundColor='#218838';
+    this.style.transform='scale(1.03)';
+"
+onmouseout="
+    this.style.backgroundColor='#28a745';
+    this.style.transform='scale(1)';
+">
+    Message Auctioneer
+</button>
+        </div>
+    </form>
+
+    <!-- Alternatively, just a link that creates a blank message or goes to chat. 
+         <a href="{{ route('messages.show', $auction->user->id) }}">Message Auctioneer</a> -->
                     </div>
                 </div>
             @endforeach

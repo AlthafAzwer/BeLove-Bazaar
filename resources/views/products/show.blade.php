@@ -113,7 +113,39 @@
     @csrf
     <!-- We do NOT store product_name or create a message here. 
          We only redirect to the chat page when the button is clicked. -->
-    <button type="submit">Message Seller</button>
+    <!-- Message Seller Button -->
+<!-- Wrap buttons in a centered container -->
+<div style="
+    text-align: center; 
+    margin-top: 20px; /* space above the buttons */
+">
+
+    <!-- Buy Now Button -->
+    
+    <button style="
+        background-color: #007BFF; 
+        color: #fff; 
+        padding: 12px 20px; 
+        border: none; 
+        border-radius: 8px; 
+        font-size: 14px; 
+        cursor: pointer; 
+        font-weight: 600; 
+        transition: background-color 0.3s, transform 0.3s;"
+        onmouseover="
+            this.style.backgroundColor='#0056b3';
+            this.style.transform='scale(1.03)';
+        "
+        onmouseout="
+            this.style.backgroundColor='#007BFF';
+            this.style.transform='scale(1)';
+        "
+    >
+        Message Seller
+    </button>
+</div>
+
+
 </form>
 
 
