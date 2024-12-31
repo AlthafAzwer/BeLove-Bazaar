@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
+use App\Models\RecentView;
 
 
 class ProductController extends Controller
@@ -143,6 +144,33 @@ public function index(Request $request)
     $product->delete();
 
     return redirect()->route('my.ads')->with('success', 'Ad deleted successfully.');
+}
+
+
+
+
+
+public function viewProduct($productId)
+{
+    $userId = Auth::id();
+
+    if ($userId) {
+        // Check if the product is already in the recent views
+        $recentViewExists = RecentView::where('user_id', $userId)
+            ->where('product_id', $productId)
+            ->exists();
+
+        if (!$recentViewExists) {
+            RecentView::create([
+                'user_id' => $userId,
+                'product_id' => $productId,
+            ]);
+        }
+    }
+
+    // Proceed with viewing the product
+    $product = Product::findOrFail($productId);
+    return view('products.show', compact('product'));
 }
 
 

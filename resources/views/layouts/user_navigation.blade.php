@@ -185,6 +185,12 @@
             <i class="fas fa-receipt"></i>
             <span>My Orders</span>
         </a>
+
+        <a href="{{ route('personalized.dashboard') }}" >
+    <i class="fas fa-tachometer-alt"></i>
+    
+</a>
+
         <!-- PROFILE -->
         <a href="{{ route('profile.edit') }}">
             <i class="fas fa-user"></i>

@@ -17,6 +17,7 @@ use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\BidController;
 use App\Http\Controllers\AuctionOrderController;
 use App\Http\Controllers\DirectMessageController;
+use App\Http\Controllers\PersonalizedDashboardController;
 use App\Models\CharityRequest;
 
 
@@ -147,6 +148,13 @@ Route::post('/auctions/chat/{auction}', function (\App\Models\Auction $auction) 
 
 Route::delete('/messages/delete-chat/{otherUserId}', [DirectMessageController::class, 'deleteChat'])
      ->name('messages.deleteChat');
+
+     Route::get('/personalized-dashboard', [PersonalizedDashboardController::class, 'index'])->name('personalized.dashboard');
+
+
+     Route::get('/products/{id}', [ProductController::class, 'viewProduct'])->name('products.show');
+
+     
 
 
 
