@@ -125,6 +125,20 @@
                 margin-left: 0;
                 width: 100%;
             }
+
+            li a {
+    display: block;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #3498db;
+    transition: background-color 0.3s ease;
+}
+
+li a:hover {
+    background-color: #2980b9;
+}
+
         }
     </style>
 </head>
@@ -169,6 +183,13 @@
 <a href="{{ route('admin.auction_orders') }}" class="btn btn-primary">
      Manage Auction Orders
 </a>
+
+<li>
+    <a href="{{ route('admin.blogs.index') }}" style="color: #ffffff; padding: 10px; text-decoration: none;">
+        <span>Manage Blogs</span>
+    </a>
+</li>
+
     </li>
 
 

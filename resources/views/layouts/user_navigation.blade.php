@@ -133,9 +133,10 @@
     <div class="nav-links">
         <a href="{{ route('home') }}">Home</a>
         <a href="{{ route('products') }}">Products</a>
+        <a href="{{ route('auctions.index') }}">Auctions</a>
         <a href="{{ route('donation.list') }}">Donation List</a>
         <a href="{{ route('user.reviews') }}">Reviews</a>
-        <a href="{{ route('auctions.index') }}">Auctions</a>
+        <a href="{{ route('blogs.index') }}" >Blogs</a>
         <!-- Add your new pages here -->
   
         
@@ -149,6 +150,9 @@
     <i class="fas fa-comments"></i>
     <span>Chats</span>
 </a>
+
+
+
 
         <!-- MY ADS -->
         <a href="{{ route('my.ads') }}">

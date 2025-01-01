@@ -19,6 +19,9 @@ use App\Http\Controllers\AuctionOrderController;
 use App\Http\Controllers\DirectMessageController;
 use App\Http\Controllers\PersonalizedDashboardController;
 use App\Models\CharityRequest;
+use App\Http\Controllers\Admin\BlogController as AdminBlogController;
+use App\Http\Controllers\BlogController ;
+
 
 
 
@@ -155,6 +158,8 @@ Route::delete('/messages/delete-chat/{otherUserId}', [DirectMessageController::c
      Route::get('/products/{id}', [ProductController::class, 'viewProduct'])->name('products.show');
 
      
+     Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
+     Route::get('/blogs/{id}', [BlogController::class, 'show'])->name('blogs.show');
 
 
 
@@ -241,6 +246,11 @@ Route::delete('/admin/manage-bids/{id}', [AdminController::class, 'deleteBid'])-
 Route::get('/admin/auction-orders', [AdminController::class, 'manageAuctionOrders'])->name('admin.auction_orders');
 Route::delete('/admin/auction-orders/{id}', [AdminController::class, 'deleteAuctionOrder'])->name('admin.auction_orders.delete');
 
+Route::get('admin/blogs', [AdminBlogController::class, 'index'])->name('admin.blogs.index');
+Route::get('admin/blogs/create', [AdminBlogController::class, 'create'])->name('admin.blogs.create');
+Route::post('admin/blogs', [AdminBlogController::class, 'store'])->name('admin.blogs.store');
+Route::get('/admin/blogs/{id}', [AdminBlogController::class, 'show'])->name('admin.blogs.show');
+Route::delete('/admin/blogs/{id}', [AdminBlogController::class, 'destroy'])->name('admin.blogs.destroy');
 
 
 
