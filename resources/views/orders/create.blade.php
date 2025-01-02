@@ -2,6 +2,17 @@
 
 @section('content')
     <style>
+        /* General Page Container Styling */
+        .content-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Heading Styling */
         h2 {
             text-align: center;
             font-size: 2rem;
@@ -9,15 +20,7 @@
             color: #333;
         }
 
-        form {
-            max-width: 500px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
+        /* Form Styling */
         form div {
             margin-bottom: 1.5rem;
         }
@@ -45,6 +48,7 @@
             box-shadow: 0 0 3px rgba(49, 130, 206, 0.5);
         }
 
+        /* Submit Button Styling */
         button {
             display: inline-block;
             width: 100%;
@@ -65,27 +69,29 @@
         }
     </style>
 
-    <h2>Order Details for {{ $product->title }}</h2>
-    <form action="{{ route('orders.store', ['product' => $product->id]) }}" method="POST">
-        @csrf
-        <div>
-            <label for="buyer_name">Name:</label>
-            <input type="text" name="buyer_name" value="{{ old('buyer_name', Auth::user()->name) }}" required>
-        </div>
-        <div>
-            <label for="buyer_address">Address:</label>
-            <input type="text" name="buyer_address" required>
-        </div>
-        <div>
-            <label for="buyer_telephone">Telephone:</label>
-            <input type="text" name="buyer_telephone" required>
-        </div>
-        <div>
-            <label for="payment_method">Payment Method:</label>
-            <select name="payment_method" required>
-                <option value="Cash on Delivery">Cash on Delivery</option>
-            </select>
-        </div>
-        <button type="submit">Place Order</button>
-    </form>
+    <div class="content-container">
+        <h2>Order Details for {{ $product->title }}</h2>
+        <form action="{{ route('orders.store', ['product' => $product->id]) }}" method="POST">
+            @csrf
+            <div>
+                <label for="buyer_name">Name:</label>
+                <input type="text" id="buyer_name" name="buyer_name" value="{{ old('buyer_name', Auth::user()->name) }}" required>
+            </div>
+            <div>
+                <label for="buyer_address">Address:</label>
+                <input type="text" id="buyer_address" name="buyer_address" required>
+            </div>
+            <div>
+                <label for="buyer_telephone">Telephone:</label>
+                <input type="text" id="buyer_telephone" name="buyer_telephone" required>
+            </div>
+            <div>
+                <label for="payment_method">Payment Method:</label>
+                <select id="payment_method" name="payment_method" required>
+                    <option value="Cash on Delivery">Cash on Delivery</option>
+                </select>
+            </div>
+            <button type="submit">Place Order</button>
+        </form>
+    </div>
 @endsection

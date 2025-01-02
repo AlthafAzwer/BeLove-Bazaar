@@ -4,76 +4,82 @@
 <style>
     /* Main container styling */
     .reviews-container {
-        max-width: 800px;
+        max-width: 900px;
         margin: 2rem auto;
         background-color: #ffffff;
         padding: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     }
 
     /* Header Styling */
     .reviews-container h1 {
         text-align: center;
         margin-bottom: 2rem;
-        font-size: 2rem;
-        color: #2c3e50;
+        font-size: 2.5rem;
+        color: #34495e;
+        font-weight: bold;
     }
 
     /* Table Styling */
     .reviews-table {
         width: 100%;
         border-collapse: collapse;
+        overflow: hidden;
+        border-radius: 12px;
     }
 
     .reviews-table th,
     .reviews-table td {
-        padding: 12px;
+        padding: 15px;
         text-align: left;
-        border: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
     }
 
     .reviews-table th {
-        background-color: #f9f9f9;
+        background-color: #2c3e50;
+        color: white;
         font-weight: bold;
-        color: #2c3e50;
+        text-transform: uppercase;
     }
 
     .reviews-table tr:nth-child(even) {
-        background-color: #f4f4f4;
+        background-color: #f7f7f7;
     }
 
     .reviews-table tr:hover {
-        background-color: #eef5f9;
+        background-color: #eaf2f8;
+        transition: background-color 0.3s ease;
     }
 
-    /* Delete Button Styling */
+    /* Button Styling */
     .delete-btn {
         background-color: #e74c3c;
         color: white;
-        padding: 8px 12px;
+        padding: 10px 15px;
         border: none;
-        border-radius: 5px;
+        border-radius: 6px;
         font-size: 0.9rem;
+        font-weight: bold;
         cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
+        transition: all 0.3s ease;
     }
 
     .delete-btn:hover {
         background-color: #c0392b;
-        transform: scale(1.05);
+        transform: translateY(-3px);
     }
 
     .delete-btn:focus {
         outline: none;
-        box-shadow: 0 0 5px 2px rgba(231, 76, 60, 0.5);
+        box-shadow: 0 0 8px rgba(231, 76, 60, 0.5);
     }
 
-    /* No Reviews Message Styling */
+    /* Empty message styling */
     .no-reviews {
         text-align: center;
+        font-size: 1.2rem;
         color: #7f8c8d;
-        font-size: 1rem;
         margin: 2rem 0;
     }
 </style>
@@ -81,7 +87,7 @@
 <div class="reviews-container">
     <h1>User Reviews</h1>
     @if($reviews->isEmpty())
-        <p class="no-reviews">No reviews available at the moment.</p>
+        <p class="no-reviews">No reviews available at the moment. Be the first to leave a review!</p>
     @else
         <table class="reviews-table">
             <thead>
@@ -101,13 +107,11 @@
                         <td>{{ $review->rating }}</td>
                         <td>{{ $review->review }}</td>
                         <td>
-                            @if($review->user_id === auth()->id())
-                                <form action="{{ route('user.reviews.destroy', $review->id) }}" method="POST" style="display:inline-block;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="delete-btn">Delete</button>
-                                </form>
-                            @endif
+                            <form action="{{ route('user.reviews.destroy', $review->id) }}" method="POST" style="display:inline-block;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="delete-btn">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
