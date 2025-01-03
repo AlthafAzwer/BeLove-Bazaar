@@ -21,6 +21,7 @@ use App\Http\Controllers\PersonalizedDashboardController;
 use App\Models\CharityRequest;
 use App\Http\Controllers\Admin\BlogController as AdminBlogController;
 use App\Http\Controllers\BlogController ;
+use App\Http\Controllers\StripePaymentController;
 
 
 
@@ -161,6 +162,8 @@ Route::delete('/messages/delete-chat/{otherUserId}', [DirectMessageController::c
      Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
      Route::get('/blogs/{id}', [BlogController::class, 'show'])->name('blogs.show');
 
+
+     
 
 
 

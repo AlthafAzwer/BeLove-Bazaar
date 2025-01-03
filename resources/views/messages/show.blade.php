@@ -198,4 +198,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Automatically refresh the page every 3 seconds
+    setInterval(() => {
+        window.location.reload();
+    }, 10000); // 3000ms = 3 seconds
+</script>
+
 @endsection
