@@ -49,6 +49,12 @@
         display: none;
     }
 
+    .installment-note {
+        margin-top: -1rem;
+        font-size: 0.9rem;
+        color: #555;
+    }
+
     button {
         display: inline-block;
         width: 100%;
@@ -66,6 +72,18 @@
 
     button:hover {
         background-color: #2b6cb0;
+    }
+
+    .koko-link {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 0.9rem;
+    }
+
+    .koko-link a {
+        color: #3182ce;
+        text-decoration: underline;
+        cursor: pointer;
     }
 </style>
 
@@ -96,17 +114,26 @@
 
         <!-- Card Details Section -->
         <div id="card-details" class="hidden">
+            <p id="installment-note" class="installment-note hidden">Pay in 3 installments with 0% interest using Koko Payment.</p>
             <div>
                 <label for="card_number">Card Number:</label>
-                <input type="text" id="card_number" name="card_number" placeholder="1234 5678 9012 3456">
+                <input type="text" id="card_number" name="card_number" placeholder="1234 5678 9012 3456" maxlength="19">
             </div>
             <div>
                 <label for="card_expiry">Expiry Date:</label>
-                <input type="text" id="card_expiry" name="card_expiry" placeholder="MM/YY">
+                <input type="text" id="card_expiry" name="card_expiry" placeholder="MM/YY" maxlength="5">
             </div>
             <div>
                 <label for="card_cvc">CVC:</label>
-                <input type="text" id="card_cvc" name="card_cvc" placeholder="123">
+                <input type="text" id="card_cvc" name="card_cvc" placeholder="123" maxlength="3">
+            </div>
+        </div>
+
+        <!-- Koko Payment Redirect -->
+        <div id="koko-payment" class="hidden">
+            <p class="installment-note">You will be redirected to Koko to complete the payment. Once done, return here and click "Place Order".</p>
+            <div class="koko-link">
+                <a href="https://paykoko.com/" target="_blank">Proceed to Koko Payment</a>
             </div>
         </div>
 
@@ -118,13 +145,23 @@
     document.addEventListener('DOMContentLoaded', function () {
         const paymentMethod = document.getElementById('payment_method');
         const cardDetails = document.getElementById('card-details');
+        const kokoPayment = document.getElementById('koko-payment');
+        const installmentNote = document.getElementById('installment-note');
 
-        // Show/Hide Card Details based on Payment Method
+        // Show/Hide Card Details and Koko Payment based on Payment Method
         paymentMethod.addEventListener('change', function () {
-            if (paymentMethod.value === 'Pay by Card' || paymentMethod.value === 'Koko Payment') {
+            if (paymentMethod.value === 'Pay by Card') {
                 cardDetails.classList.remove('hidden');
+                kokoPayment.classList.add('hidden');
+                installmentNote.classList.add('hidden');
+            } else if (paymentMethod.value === 'Koko Payment') {
+                cardDetails.classList.remove('hidden');
+                kokoPayment.classList.remove('hidden');
+                installmentNote.classList.remove('hidden');
             } else {
                 cardDetails.classList.add('hidden');
+                kokoPayment.classList.add('hidden');
+                installmentNote.classList.add('hidden');
             }
         });
     });
