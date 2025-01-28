@@ -56,18 +56,38 @@
         color: #dc3545;
     }
 
-    .delete-btn {
-        color: #dc3545;
-        text-decoration: none;
-        font-size: 1rem;
-        font-weight: bold;
+    .btn-group {
         margin-top: 1rem;
-        display: inline-block;
-        transition: color 0.3s ease;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .btn {
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .edit-btn {
+        background-color: #ffc107;
+        color: black;
+    }
+
+    .edit-btn:hover {
+        background-color: #e0a800;
+    }
+
+    .delete-btn {
+        background-color: #dc3545;
+        color: white;
     }
 
     .delete-btn:hover {
-        color: #a71d2a;
+        background-color: #a71d2a;
     }
 </style>
 
@@ -88,10 +108,14 @@
             @if ($charity->status === 'rejected' && $charity->rejection_reason)
                 <p><strong>Reason:</strong> {{ $charity->rejection_reason }}</p>
             @endif
-            <a href="{{ route('charities.delete', $charity->id) }}" class="delete-btn"
-               onclick="return confirm('Are you sure you want to delete this charity request?');">
-                Delete Charity Request
-            </a>
+
+            <div class="btn-group">
+                <a href="{{ route('charities.edit', $charity->id) }}" class="btn edit-btn">Edit</a>
+                <a href="{{ route('charities.delete', $charity->id) }}" class="btn delete-btn"
+                   onclick="return confirm('Are you sure you want to delete this charity request?');">
+                    Delete
+                </a>
+            </div>
         </div>
     @endforeach
 </div>

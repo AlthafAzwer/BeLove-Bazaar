@@ -48,9 +48,12 @@
     }
     /* LOGO */
     .navbar-bottom .logo img {
-        max-width: 50px; 
-        max-height: 50px;
+        max-width: 60px; 
+        max-height: 60px;
         margin-right: 10px;
+        border: 2px solid #2d3748;
+        border-radius: 50%;
+        padding: 5px;
     }
     .navbar-bottom .logo {
         display: flex;
@@ -90,6 +93,32 @@
     .navbar-icons a:hover {
         color: #e53e3e;
     }
+    /* DROPDOWN MENU */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f8f9fa;
+        min-width: 200px;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+        z-index: 1;
+    }
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+    .dropdown-content a {
+        color: #2d3748;
+        text-decoration: none;
+        display: block;
+        padding: 0.5rem;
+        transition: background-color 0.2s;
+    }
+    .dropdown-content a:hover {
+        background-color: #e2e8f0;
+    }
     /* LOGOUT BUTTON */
     .logout-button {
         background: none;
@@ -125,7 +154,7 @@
     <!-- Left: Logo -->
     <div class="logo">
         <a href="{{ route('welcome') }}">
-            <img src="{{ asset('images/Relove logo.png') }}" alt="ReLove Bazaar Logo"> 
+            <img src="{{ asset('images/Relove logo.png') }}" alt="ReLove Bazaar Logo">
         </a>
     </div>
 
@@ -136,74 +165,45 @@
         <a href="{{ route('auctions.index') }}">Auctions</a>
         <a href="{{ route('donation.list') }}">Donation List</a>
         <a href="{{ route('user.reviews') }}">Reviews</a>
-        <a href="{{ route('blogs.index') }}" >Blogs</a>
-        <!-- Add your new pages here -->
-  
-        
+        <a href="{{ route('blogs.index') }}">Blogs</a>
     </div>
 
-    <!-- Right: Icon Links / Profile / Logout -->
+    <!-- Right: My Account Dropdown / Profile / Logout -->
     <div class="navbar-icons">
-
-    <!-- CHATS -->
-<a href="{{ route('messages.index') }}">
-    <i class="fas fa-comments"></i>
-    <span>Chats</span>
-</a>
-
-
-
-
-        <!-- MY ADS -->
-        <a href="{{ route('my.ads') }}">
-            <i class="fas fa-clipboard-list"></i>
-            <span>My Ads</span>
-        </a>
-        <!-- MY CHARITIES -->
-        <a href="{{ route('charities.index') }}">
-            <i class="fas fa-hand-holding-heart"></i>
-            <span>My Charities</span>
-        </a>
-        <!-- MY AUCTIONS -->
-        <a href="{{ route('auctions.my') }}">
-            <i class="fas fa-gavel"></i>
-            <span>My Auctions</span>
-        </a>
-        <!-- MY BIDS -->
-        <a href="{{ route('bids.myBids') }}">
-            <i class="fas fa-hand-holding-usd"></i>
-            <span>My Bids</span>
-        </a>
-        <!-- AUCTION ORDERS -->
-        <a href="{{ route('auction_orders.index') }}">
-            <i class="fas fa-gavel"></i>
-            <span>Auction Orders</span>
-        </a>
-        <!-- ORDERS -->
-        <a href="{{ route('seller.orders') }}">
-            <i class="fas fa-box"></i>
-            <span>Orders</span>
-        </a>
-        <!-- MY ORDERS -->
-        <a href="{{ route('buyer.orders') }}">
-            <i class="fas fa-receipt"></i>
-            <span>My Orders</span>
+        <a href="{{ route('messages.index') }}">
+            <i class="fas fa-comments"></i>
+            <span>Chats</span>
         </a>
 
-        <a href="{{ route('personalized.dashboard') }}" >
-    <i class="fas fa-tachometer-alt"></i>
-    
-</a>
+        <a href="{{ route('personalized.dashboard') }}">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Personalized Dashboard</span>
 
-        <!-- PROFILE -->
+        
+        <div class="dropdown">
+            <a href="#"><i class="fas fa-user"></i> My Account</a>
+            <div class="dropdown-content">
+                <a href="{{ route('my.ads') }}">My Ads</a>
+                <a href="{{ route('charities.index') }}">My Charities</a>
+                <a href="{{ route('auctions.my') }}">My Auctions</a>
+                <a href="{{ route('bids.myBids') }}">My Bids</a>
+                <a href="{{ route('buyer.auction_orders.index') }}">My Auction Orders</a>
+                <a href="{{ route('auction_orders.index') }}">Auction Orders</a>
+                <a href="{{ route('buyer.orders') }}">My Orders</a>
+                <a href="{{ route('seller.orders') }}">Orders</a>
+                
+
+                
+            </div>
+        </div>
         <a href="{{ route('profile.edit') }}">
-            <i class="fas fa-user"></i>
+            <i class="fas fa-user-cog"></i>
+            <span>Profile</span>
         </a>
-        <!-- LOGOUT -->
         <form action="{{ route('logout') }}" method="POST" style="display: inline;">
             @csrf
             <button type="submit" class="logout-button">
-                <i class="fas fa-sign-out-alt" style="font-size: 1.3rem;"></i>
+                <i class="fas fa-sign-out-alt"></i>
             </button>
         </form>
     </div>

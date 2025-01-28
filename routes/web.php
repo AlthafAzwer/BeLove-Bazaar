@@ -86,6 +86,9 @@ Route::middleware(['auth', 'verified', RoleMiddleware::class . ':buyer,seller,ch
     Route::get('/donation-list', [CharityController::class, 'donationList'])->name('donation.list');
     Route::get('/my-charities', [CharityController::class, 'myCharities'])->name('charities.index');
     Route::get('/my-charities/delete/{id}', [CharityController::class, 'deleteCharity'])->name('charities.delete');
+    Route::get('/my-charities/edit/{id}', [CharityController::class, 'edit'])->name('charities.edit');
+    Route::put('/my-charities/update/{id}', [CharityController::class, 'update'])->name('charities.update');
+
     Route::get('/donations/search', [CharityController::class, 'search'])->name('donations.search');
     Route::get('/orders/{order}/review', [ReviewController::class, 'create'])->name('review.create');
     Route::post('/orders/{order}/review', [ReviewController::class, 'store'])->name('review.store');
@@ -112,6 +115,9 @@ Route::post('/auction-orders/{auction}', [AuctionOrderController::class, 'store'
 
 // Seller's auction orders
 Route::get('/auction-orders', [AuctionOrderController::class, 'index'])->name('auction_orders.index');
+Route::get('/buyer-auction-orders', [AuctionOrderController::class, 'buyerOrders'])
+    ->name('buyer.auction_orders.index');
+
 
 
 
@@ -161,6 +167,7 @@ Route::delete('/messages/delete-chat/{otherUserId}', [DirectMessageController::c
      
      Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
      Route::get('/blogs/{id}', [BlogController::class, 'show'])->name('blogs.show');
+     
 
 
      

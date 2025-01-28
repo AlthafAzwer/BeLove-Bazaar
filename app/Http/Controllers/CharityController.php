@@ -113,6 +113,35 @@ public function search(Request $request)
     return view('donations.list', compact('approvedCharities'));
 }
 
+public function edit($id)
+{
+    // Get the charity request for the logged-in user
+    $charity = CharityRequest::where('id', $id)
+                ->where('user_id', Auth::id())
+                ->firstOrFail();
+
+    return view('charities.edit', compact('charity'));
+}
+
+public function update(Request $request, $id)
+{
+    // Validate the input (only quantity is editable)
+    $request->validate([
+        'quantity' => 'required|integer|min:1',
+    ]);
+
+    // Find the charity request and ensure the user owns it
+    $charity = CharityRequest::where('id', $id)
+                ->where('user_id', Auth::id())
+                ->firstOrFail();
+
+    // Update the quantity
+    $charity->quantity = $request->quantity;
+    $charity->save();
+
+    return redirect()->route('charities.index')
+                     ->with('success', 'Charity quantity updated successfully.');
+}
 
 
 

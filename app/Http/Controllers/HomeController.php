@@ -108,6 +108,18 @@ public function showProductDetails($id)
     return view('products.show', compact('product'));
 }
 
+public function showHome()
+{
+    // 1) Fetch 4 "approved" products (change logic as needed)
+    $hotProducts = Product::where('status', 'approved')
+        ->orderBy('id', 'desc')
+        ->take(4)
+        ->get();
+
+    // 2) Return the 'home' view with $hotProducts
+    return view('home', compact('hotProducts'));
+}
+
 
 
 }

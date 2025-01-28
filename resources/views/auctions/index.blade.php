@@ -123,6 +123,31 @@
             flex: 1 1 calc(33.333% - 20px);
         }
     }
+
+    .footer {
+            background-color: #1a202c;
+            color: #edf2f7;
+            padding: 2rem 0;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            flex-wrap: wrap;
+        }
+        .footer h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        .footer .footer-section {
+            flex: 1;
+            margin: 1rem;
+        }
+        .footer a {
+            color: #edf2f7;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            color: #e53e3e;
+        }
 </style>
 
 <div class="container">
@@ -196,4 +221,35 @@ onmouseout="
         </div>
     @endif
 </div>
+
+<footer class="footer">
+        <div class="footer-section">
+            <h4>Exclusive</h4>
+            <p>Signup</p>
+            <form>
+                <input type="email" placeholder="Enter your email">
+                <button type="submit">→</button>
+            </form>
+        </div>
+        <div class="footer-section">
+            <h4>Support</h4>
+            <p>Union Place, Apiit</p>
+            <p>relovebazaar@gmail.com</p>
+            <p>0764740651</p>
+        </div>
+        <div class="footer-section">
+            <h4>Account</h4>
+            <p><a href="#">My Account</a></p>
+            <p><a href="#">Login / Register</a></p>
+            <p><a href="#">Cart</a></p>
+            <p><a href="#">Wishlist</a></p>
+        </div>
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <p><a href="#">Products</a></p>
+            <p><a href="#">Donation List</a></p>
+            <p><a href="#">Blog</a></p>
+            <p><a href="#">Contact</a></p>
+        </div>
+    </footer>
 @endsection

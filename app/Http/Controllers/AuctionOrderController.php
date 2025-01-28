@@ -58,4 +58,19 @@ class AuctionOrderController extends Controller
         // Pass orders to the view
         return view('seller.auction_orders', compact('orders'));
     }
+
+    public function buyerOrders()
+{
+    // Get the current authenticated user's ID
+    $currentUserId = Auth::id();
+
+    // Fetch orders where the current user is the buyer
+    $orders = AuctionOrder::where('buyer_id', $currentUserId)
+                ->with('auction') // Load auction details
+                ->get();
+
+    // Return the buyer's auction orders view
+    return view('buyer.auction_orders', compact('orders'));
+}
+
 }

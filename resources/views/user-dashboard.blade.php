@@ -171,6 +171,43 @@
                 width: 70%;
                 margin-top: 1.5rem;
             }
+
+            .product-card {
+    width: 220px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.product-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.product-card h4 {
+    font-size: 1.2rem;
+    color: #333;
+    margin: 0.5rem 0;
+}
+
+.product-card p {
+    color: #e53e3e;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
         }
 
         /* Footer Section */
@@ -198,6 +235,54 @@
         .footer a:hover {
             color: #e53e3e;
         }
+
+        h2 {
+    font-size: 2.5rem; /* Makes the heading larger */
+    font-weight: bold; /* Gives it a bold appearance */
+    text-align: center; /* Centers the heading */
+    color: #333; /* Neutral dark color */
+    margin-bottom: 1.5rem; /* Adds space below the heading */
+    text-transform: uppercase; /* Makes text uppercase for emphasis */
+    letter-spacing: 2px; /* Adds slight spacing between letters */
+    position: relative; /* Required for decorative underline */
+}
+
+h2::after {
+    content: ''; /* Empty content for the underline */
+    display: block;
+    width: 50px; /* Width of the underline */
+    height: 3px; /* Height of the underline */
+    background-color: #e53e3e; /* Red underline color */
+    margin: 0.5rem auto; /* Centered below the text */
+    border-radius: 5px; /* Adds rounded edges to the underline */
+}
+
+.buy-now-btn {
+    display: inline-block;
+    background-color: #e53e3e; /* Red color */
+    color: #fff; /* White text */
+    padding: 0.5rem 1rem; /* Space inside the button */
+    border-radius: 8px; /* Rounded corners */
+    font-size: 1rem; /* Font size for the button text */
+    text-transform: uppercase; /* All caps */
+    font-weight: bold; /* Bold text */
+    text-decoration: none; /* Remove underline */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth hover effect */
+}
+
+.buy-now-btn:hover {
+    background-color: #c53030; /* Darker red on hover */
+    transform: translateY(-3px); /* Subtle upward movement */
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2); /* Add a shadow on hover */
+}
+
+.buy-now-btn:active {
+    background-color: #9b2c2c; /* Even darker red when clicked */
+    transform: translateY(1px); /* Slight downward movement on click */
+    box-shadow: none; /* Remove shadow on click */
+}
+
+
     </style>
 
     <!-- Banner Section -->
@@ -207,61 +292,85 @@
 
     <!-- Category Section -->
     <div class="category-section">
-        <h2>Browse By Category</h2>
-        <div class="categories">
-            <a href="{{ route('products') }}" class="category-card">
-                <img src="{{ asset('images/electronics.jpg') }}" alt="Electronics">
-                <p>Electronics</p>
-            </a>
-            <a href="{{ route('products') }}" class="category-card">
-                <img src="{{ asset('images/furniture.jpg') }}" alt="Furniture">
-                <p>Furniture</p>
-            </a>
-            <a href="{{ route('products') }}" class="category-card">
-                <img src="{{ asset('images/camera.jpg') }}" alt="Camera">
-                <p>Camera</p>
-            </a>
-            <a href="{{ route('products') }}" class="category-card">
-                <img src="{{ asset('images/toys.jpg') }}" alt="Toys">
-                <p>Toys</p>
-            </a>
-            <a href="{{ route('products') }}" class="category-card">
-                <img src="{{ asset('images/fashion.jpeg') }}" alt="Fashion">
-                <p>Fashion</p>
-            </a>
-            <a href="{{ route('products') }}" class="category-card">
-                <img src="{{ asset('images/sports.jpg') }}" alt="Sports">
-                <p>Sports</p>
-            </a>
-        </div>
-    </div>
+    <h2>Our Categories</h2>
+    <div class="categories">
+        <!-- Electronics -->
+        <a href="{{ route('products', ['category' => 'electronics']) }}" class="category-card">
+            <img src="{{ asset('images/electronics.jpg') }}" alt="Electronics">
+            <p>Electronics</p>
+        </a>
 
-    <!-- Products Section -->
-    <div class="products-section">
-        <h2>Hot Products</h2>
-        <div class="product-list">
-            <div class="product-card">
-                <img src="{{ asset('images/coat.jpg') }}" alt="Product 1">
-                <h3>The North Coat</h3>
-                <p class="price">Rs 1800</p>
-            </div>
-            <div class="product-card">
-                <img src="{{ asset('images/bag.jpg') }}" alt="Product 2">
-                <h3>Carrier Bag</h3>
-                <p class="price">Rs 1200</p>
-            </div>
-            <div class="product-card">
-                <img src="{{ asset('images/speaker.jpg') }}" alt="Product 3">
-                <h3>Speaker</h3>
-                <p class="price">Rs 3000</p>
-            </div>
-            <div class="product-card">
-                <img src="{{ asset('images/bookshelf.jpg') }}" alt="Product 4">
-                <h3>Small Bookshelf</h3>
-                <p class="price">Rs 8000</p>
-            </div>
+        <!-- Furniture -->
+        <a href="{{ route('products', ['category' => 'furniture']) }}" class="category-card">
+            <img src="{{ asset('images/furniture.jpg') }}" alt="Furniture">
+            <p>Furniture</p>
+        </a>
+
+        <!-- Camera -->
+        <a href="{{ route('products', ['category' => 'camera']) }}" class="category-card">
+            <img src="{{ asset('images/camera.jpg') }}" alt="Camera">
+            <p>Camera</p>
+        </a>
+
+        <!-- Toys -->
+        <a href="{{ route('products', ['category' => 'toys']) }}" class="category-card">
+            <img src="{{ asset('images/toys.jpg') }}" alt="Toys">
+            <p>Toys</p>
+        </a>
+
+        <!-- Fashion -->
+        <a href="{{ route('products', ['category' => 'fashion']) }}" class="category-card">
+            <img src="{{ asset('images/fashion.jpeg') }}" alt="Fashion">
+            <p>Fashion</p>
+        </a>
+
+        <!-- Sports -->
+        <a href="{{ route('products', ['category' => 'sports']) }}" class="category-card">
+            <img src="{{ asset('images/sports.jpg') }}" alt="Sports">
+            <p>Sports</p>
+        </a>
+    </div>
+</div>
+
+
+    <!-- HOT PRODUCTS SECTION -->
+    <h2>Hot Products</h2>
+        <div class="product-list" style="display: flex; gap: 20px; flex-wrap: wrap;">
+            @if($hotProducts->isEmpty())
+                <p>No hot products available at the moment.</p>
+            @else
+                @foreach($hotProducts as $product)
+                    <div class="product-card" style="width: 200px; border: 1px solid #ccc; padding: 10px;">
+                        @php
+                            // If images are stored as JSON
+                            $images = json_decode($product->images, true) ?? [];
+                        @endphp
+
+                        <!-- Display first image or a fallback -->
+                        @if(!empty($images))
+                            <img 
+                                src="{{ asset('storage/'.$images[0]) }}" 
+                                alt="{{ $product->title }}" 
+                                style="width: 100%; height: 150px; object-fit: cover;"
+                            >
+                        @else
+                            <img 
+                                src="{{ asset('images/no-image.png') }}" 
+                                alt="No image available" 
+                                style="width: 100%; height: 150px; object-fit: cover;"
+                            >
+                        @endif
+
+                        <h4>{{ $product->title }}</h4>
+                        <p>Rs {{ number_format($product->price, 2) }}</p>
+                       
+            <a href="{{ route('products.show', $product->id) }}" class="buy-now-btn">View Product</a>
+                        
+                    </div>
+                @endforeach
+            @endif
         </div>
-        <a href="{{ route('products') }}" class="view-all-products">View All Products</a>
+
     </div>
 
     <!-- Our Story Section -->
