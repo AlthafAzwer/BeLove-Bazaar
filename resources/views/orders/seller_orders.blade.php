@@ -87,6 +87,7 @@
                     <th>Buyer Name</th>
                     <th>Buyer Address</th>
                     <th>Buyer Telephone</th>
+                    <th>Payment Method</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
@@ -98,6 +99,7 @@
                         <td>{{ $order->buyer_name }}</td>
                         <td>{{ $order->buyer_address }}</td>
                         <td>{{ $order->buyer_telephone }}</td>
+                        <td>{{ $order->payment_method }}</td>
                         <td>{{ $order->status }}</td>
                         <td>
                             <form action="{{ route('orders.update-status', $order->id) }}" method="POST">

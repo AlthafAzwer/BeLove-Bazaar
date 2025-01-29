@@ -25,45 +25,24 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border-radius: 10px;
         overflow: hidden;
+        background: white;
     }
 
     .table thead {
         background-color: #28a745;
         color: white;
-        text-align: left;
+        text-align: center;
     }
 
     .table th, .table td {
         padding: 1rem;
         border-bottom: 1px solid #ddd;
+        text-align: center; /* Align text properly */
     }
 
     .table tbody tr:hover {
         background-color: #f9f9f9;
         transition: background-color 0.3s ease;
-    }
-
-    .badge {
-        padding: 6px 12px;
-        border-radius: 5px;
-        font-size: 14px;
-        font-weight: bold;
-        display: inline-block;
-    }
-
-    .badge-pending {
-        background-color: #ffc107;
-        color: #000;
-    }
-
-    .badge-completed {
-        background-color: #28a745;
-        color: white;
-    }
-
-    .badge-cancelled {
-        background-color: #dc3545;
-        color: white;
     }
 
     .no-orders {
@@ -93,7 +72,6 @@
                     <th>Auction Title</th>
                     <th>Seller Name</th>
                     <th>Seller Phone</th>
-                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -101,14 +79,7 @@
                     <tr>
                         <td>{{ $order->auction->title }}</td>
                         <td>{{ $order->auction->user->name }}</td>
-                        <td>{{ $order->auction->user->phone }}</td>
-                        <td>
-                            <span class="badge 
-                                {{ $order->status === 'pending' ? 'badge-pending' : 
-                                ($order->status === 'completed' ? 'badge-completed' : 'badge-cancelled') }}">
-                                {{ ucfirst($order->status) }}
-                            </span>
-                        </td>
+                        <td>{{ $order->auction->contact_info ?? 'No phone provided' }}</td>
                     </tr>
                 @endforeach
             </tbody>

@@ -51,7 +51,7 @@
 </style>
 
 <div class="form-container">
-    <h1>Proceed to Purchase</h1>
+    <h1>Proceed to Purchase - COD</h1>
     <form action="{{ route('auction_orders.store', $bid->auction->id) }}" method="POST">
         @csrf
         <!-- Auction Information -->

@@ -68,7 +68,7 @@
             </select>
 
             <label for="review">Review:</label>
-            <textarea name="review" id="review" rows="5" placeholder="Write your review here (optional)..."></textarea>
+            <textarea name="review" id="review" rows="5" placeholder="Write your experience with the genuinity of the platform"></textarea>
 
             <button type="submit">Submit Review</button>
         </form>
